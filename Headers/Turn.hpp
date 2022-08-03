@@ -1,6 +1,8 @@
 #ifndef RPGAME_TURN_HPP
 #define RPGAME_TURN_HPP
 
+#include <string>
+
 enum TurnType
 {
     Move,
@@ -8,29 +10,30 @@ enum TurnType
     Inventory
 };
 
-template<typename T>
 class Turn
 {
-    const char** messages;
+    std::string* messages;
     int iterations;
-    T* packages;
+    int* packages;
     bool packed;
     TurnType tType;
 
 public:
-    Turn(const char**, int, TurnType);
+    Turn();
     ~Turn();
 
-    void Reset(const char** mesgPack, int iter);
+    void Reset(std::string*, int);
 
-    void SetIterations(int iter);
-    void SetMessages(const char**);
+    void SetIterations(int);
+    void SetMessages(std::string*);
     void ClearPackages();
+    void SetType(TurnType);
 
     int GetIterations();
-    const char** GetMessages();
-    T* GetPackages();
+    std::string* GetMessages();
+    int* GetPackages();
     TurnType GetType();
+    bool IsPacked();
 
     void Pack();
 

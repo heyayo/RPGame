@@ -11,6 +11,8 @@ public:
     int Length();
 
     V2& operator+=(V2&);
+    V2& operator-=(V2&);
+    V2 operator-(V2&);
     bool operator==(V2&);
 };
 

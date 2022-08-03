@@ -2,6 +2,7 @@
 #include "Melee.hpp"
 #include "Ranged.hpp"
 #include "Game.hpp"
+#include "macros.hpp"
 
 int main()
 {
@@ -30,17 +31,49 @@ int main()
                     break;
             }
         } while (good);
+        currentWorld->Spawn(playerChar);
     }
 
-    playerChar->SetPosition(V2(5,3));
-    currentWorld->Spawn(playerChar);
+    bool Running = true;
+    while (Running)
+    {
+        char** mesPack = new char*[5];
 
-    Draw(currentWorld);
+        char queryResult;
+        print("Enter a move")
+        print("m to move | a to attack")
+        query(queryResult)
 
-    playerChar->SetPosition(V2(2,1));
-    currentWorld->UpdateLocation(playerChar);
-
-    Draw(currentWorld);
+        Turn Info;
+        switch (queryResult)
+        {
+            case 'm':
+                mesPack[0] = "Move on X by?";
+                mesPack[1] = "Move on Y by?";
+                Info.SetMessages(mesPack);
+                Info.SetIterations(2);
+                Info.SetType(Move);
+                print("INFO SET")
+                Query(Info);
+                break;
+            case 'a':
+                mesPack[0] = "Attack on X by?";
+                mesPack[1] = "Attack on Y by?";
+                Info.SetMessages(mesPack);
+                Info.SetIterations(2);
+                Info.SetType(Attack);
+                Query(Info);
+                break;
+            default:
+                break;
+        }
+        print("ATTEMPTING PARSE")
+        Parse(Info, playerChar);
+        print("PARSED")
+        print("DRAWING")
+        Draw(currentWorld);
+        delete[] mesPack;
+    }
 
     delete currentWorld;
     delete playerChar;

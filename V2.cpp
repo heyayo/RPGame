@@ -21,4 +21,16 @@ bool V2::operator==(V2 &rhs)
     return (x == rhs.x && y == rhs.y);
 }
 
+V2& V2::operator-=(V2 &rhs)
+{
+    x -= rhs.x;
+    y -= rhs.y;
+    return *this;
+}
+
+V2 V2::operator-(V2 &rhs)
+{
+    return V2(x - rhs.x, y - rhs.y);
+}
+
 

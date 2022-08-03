@@ -1,17 +1,21 @@
 #include "Ranged.hpp"
+#include "macros.hpp"
 
 Ranged::Ranged(World * live) : Player(live) { model = 'R'; }
 Ranged::~Ranged() {}
 
 void Ranged::Attack(V2 spot)
 {
-    if (spot.x < 0)
-        spot.x *= -1;
-    if (spot.y < 0)
-        spot.y *= -1;
+    Entity* target = liveIn->FindByLoc(spot);
+    if (target == nullptr)
+    {
+        print("No Target on Location")
+        return;
+    }
 
-    if (spot.Length() > range)
+    V2 temp = spot - pos;
+    if (temp.Length() > range)
         return;
 
-    Entity* target = liveIn->FindByLoc(spot);
+    target->Damage(damage);
 }

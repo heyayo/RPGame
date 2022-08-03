@@ -1,69 +1,74 @@
 #include "Turn.hpp"
 
-template<typename T>
-Turn<T>::Turn(const char** book, int repeats, TurnType type)
-: messages(book), iterations(repeats), tType(type)
+Turn::Turn()
 {
-    packages = new T[iterations];
     packed = false;
+    packages = nullptr;
 }
 
-template<typename T>
-Turn<T>::~Turn() { delete packages; delete messages;}
+Turn::~Turn() { delete packages;}
 
-template<typename T>
-int Turn<T>::GetIterations()
+int Turn::GetIterations()
 {
     return iterations;
 }
 
-template<typename T>
-const char **Turn<T>::GetMessages()
+std::string* Turn::GetMessages()
 {
     return messages;
 }
 
-template<typename T>
-T *Turn<T>::GetPackages()
+int* Turn::GetPackages()
 {
     return packages;
 }
 
-template<typename T>
-void Turn<T>::Pack()
+void Turn::Pack()
 {
     packed = true;
 }
 
-template<typename T>
-void Turn<T>::Reset(const char** mesgPack, int iter)
+void Turn::Reset(std::string* mesgPack, int iter)
 {
     ClearPackages();
     SetMessages(mesgPack);
     SetIterations(iter);
 }
 
-template<typename T>
-void Turn<T>::SetIterations(int iter)
+void Turn::SetIterations(int iter)
 {
     iterations = iter;
+    if (packages == nullptr)
+    {
+        packages = new int[iterations];
+        return;
+    }
+    delete packages;
+    packages = new int[iterations];
 }
 
-template<typename T>
-void Turn<T>::SetMessages(const char** mesgPack)
+void Turn::SetMessages(std::string* mesgPack)
 {
     messages = mesgPack;
 }
 
-template<typename T>
-void Turn<T>::ClearPackages()
+void Turn::ClearPackages()
 {
     delete packages;
-    packages = new T[iterations];
+    packages = new int[iterations];
 }
 
-template<typename T>
-TurnType Turn<T>::GetType()
+TurnType Turn::GetType()
 {
     return tType;
+}
+
+void Turn::SetType(TurnType type)
+{
+    tType = type;
+}
+
+bool Turn::IsPacked()
+{
+    return packed;
 }

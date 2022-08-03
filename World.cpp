@@ -64,6 +64,7 @@ Entity *World::FindByLoc(V2 loc)
     for (int i = 0; i < Inhabitants.top; i++)
     {
         if (Inhabitants[i]->GetPosition() == loc)
-            return Inhabitants[i]
+            return Inhabitants[i];
     }
+    return nullptr;
 }

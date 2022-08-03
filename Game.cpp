@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "macros.hpp"
 #include <iostream>
 
 void Draw(World* w)
@@ -15,33 +16,34 @@ void Draw(World* w)
     }
 }
 
-template<typename T>
-void Parse(Turn<T> result, Entity* curTurn)
+void Parse(Turn result, Entity* curTurn)
 {
-    if (!result.Pack())
+    if (!result.IsPacked())
         return;
-    T* packages = result.GetPackages();
+    int* packages = result.GetPackages();
     switch (result.GetType())
     {
         case Move:
             curTurn->Move(V2(packages[1],packages[0]));
             break;
         case Attack:
+            curTurn->Attack(V2(packages[1],packages[0]));
             break;
         case Inventory:
             break;
     }
 }
 
-template<typename T>
-void Query(Turn<T> &result)
+void Query(Turn &result)
 {
-    T* packs = result.GetPackages();
-    const char** list = result.GetMessages();
+    print("QUERYING")
+    int* packs = result.GetPackages();
+    char** list = result.GetMessages();
     for (int i = 0; i < result.GetIterations(); i++)
     {
         print(list[i])
         query(packs[i])
     }
     result.Pack();
+    print("QUERIED")
 }
