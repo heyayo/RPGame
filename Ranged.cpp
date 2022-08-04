@@ -1,7 +1,14 @@
 #include "Ranged.hpp"
 #include "macros.hpp"
+#include "Math.hpp"
 
-Ranged::Ranged(World * live) : Player(live) { model = 'R'; }
+Ranged::Ranged(World * live) : Player(live)
+{
+    model = 'R';
+    range = 5;
+    health = RandIntRange(80,100);
+    damage = RandIntRange(15,20);
+}
 Ranged::~Ranged() {}
 
 void Ranged::Attack(V2 spot)

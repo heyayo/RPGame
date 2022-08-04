@@ -13,7 +13,8 @@ enum TurnType
 class Turn
 {
     std::string* messages;
-    int iterations;
+    int messageCount;
+    int packCount;
     int* packages;
     bool packed;
     TurnType tType;
@@ -25,11 +26,13 @@ public:
     void Reset(std::string*, int);
 
     void SetIterations(int);
-    void SetMessages(std::string*);
+    void SetMessageCount(int);
+    void SetMessage(std::string, unsigned);
     void ClearPackages();
     void SetType(TurnType);
 
     int GetIterations();
+    int GetMessageCount();
     std::string* GetMessages();
     int* GetPackages();
     TurnType GetType();

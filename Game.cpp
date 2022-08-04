@@ -38,11 +38,18 @@ void Query(Turn &result)
 {
     print("QUERYING")
     int* packs = result.GetPackages();
-    char** list = result.GetMessages();
-    for (int i = 0; i < result.GetIterations(); i++)
+    std::string* list = result.GetMessages();
+    for (int i = 0; i < result.GetIterations() + result.GetMessageCount(); i++)
     {
-        print(list[i])
-        query(packs[i])
+        if (i < result.GetMessageCount())
+        {
+            print(list[i])
+        }
+        else
+        {
+            print(list[i])
+            query(packs[i])
+        }
     }
     result.Pack();
     print("QUERIED")

@@ -25,6 +25,9 @@ public:
     V2 GetPosition();
     V2 GetOldPosition();
     char GetModel();
+    int GetRange();
+    int GetHealth();
+    int GetDamage();
 
     virtual void Move(V2) = 0;
     virtual void Attack(V2) = 0;

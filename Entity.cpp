@@ -28,3 +28,18 @@ void Entity::Damage(int dmg)
 {
     health -= dmg;
 }
+
+int Entity::GetRange()
+{
+    return range;
+}
+
+int Entity::GetHealth()
+{
+    return health;
+}
+
+int Entity::GetDamage()
+{
+    return damage;
+}

@@ -4,13 +4,14 @@ Turn::Turn()
 {
     packed = false;
     packages = nullptr;
+    messageCount = 0;
 }
 
 Turn::~Turn() { delete packages;}
 
 int Turn::GetIterations()
 {
-    return iterations;
+    return packCount;
 }
 
 std::string* Turn::GetMessages()
@@ -31,31 +32,26 @@ void Turn::Pack()
 void Turn::Reset(std::string* mesgPack, int iter)
 {
     ClearPackages();
-    SetMessages(mesgPack);
+    SetMessage(mesgPack, 0);
     SetIterations(iter);
 }
 
 void Turn::SetIterations(int iter)
 {
-    iterations = iter;
+    packCount = iter + messageCount;
     if (packages == nullptr)
     {
-        packages = new int[iterations];
+        packages = new int[packCount];
         return;
     }
     delete packages;
-    packages = new int[iterations];
-}
-
-void Turn::SetMessages(std::string* mesgPack)
-{
-    messages = mesgPack;
+    packages = new int[packCount];
 }
 
 void Turn::ClearPackages()
 {
     delete packages;
-    packages = new int[iterations];
+    packages = new int[packCount];
 }
 
 TurnType Turn::GetType()
@@ -71,4 +67,19 @@ void Turn::SetType(TurnType type)
 bool Turn::IsPacked()
 {
     return packed;
+}
+
+int Turn::GetMessageCount()
+{
+    return messageCount;
+}
+
+void Turn::SetMessageCount(int count)
+{
+    messageCount = count;
+}
+
+void Turn::SetMessage(std::string message, unsigned int index)
+{
+    packages[index] = message;
 }
