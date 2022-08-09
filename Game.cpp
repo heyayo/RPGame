@@ -43,7 +43,7 @@ Package MoveStage()
 {
     Package boxPack(Move);
     V2 temp = V2(0,0);
-    for (int i = 5; i > 0; i--)
+    for (int i = 2; i > 0; i--)
     {
         print("WASD To Move | Invalid Means Skip")
         print("You have " << i << " Turns Left")
@@ -100,4 +100,45 @@ void LoadPtr(World* w, Entity* e)
 {
     currentWorld = w;
     player = e;
+}
+
+void PrintStats()
+{
+    for (int i = 0; i < currentWorld->GetPopCap(); i++)
+    {
+        Entity* temp = currentWorld->GetInhabitants(i);
+        if (temp == nullptr)
+            return;
+        int dmgnum, hpval;
+        char modelChar;
+        hpval = temp->GetHealth();
+        modelChar = temp->GetModel();
+        V2 pos = temp->GetPosition();
+        if (temp->GetType() == Entity::Friendly)
+        {
+            Player* pTemp = static_cast<Player*>(temp);
+            if (pTemp->GetWeapon() != nullptr)
+                dmgnum = pTemp->GetWeapon()->GetDamage() + pTemp->GetDamage();
+            else
+                dmgnum = pTemp->GetDamage();
+        }
+        else
+            dmgnum = temp->GetDamage();
+            print(modelChar << " | "
+            << hpval << " HP | "
+            << dmgnum << " DMG | "
+            << '[' << pos.x << ',' << pos.y << ']')
+    }
+}
+
+void TickNPC()
+{
+    for (int i = 0; i < currentWorld->GetPopCap(); i++)
+    {
+        Entity* temp = currentWorld->GetInhabitants(i);
+        if (temp->GetType() == Entity::Hostile)
+        {
+            static_cast<Goblin*>(temp)->DoTurn();
+        }
+    }
 }

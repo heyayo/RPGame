@@ -22,3 +22,11 @@ int RandIntRange(int min, int max)
 {
     return (rand() % (max-min)) + min;
 }
+
+V2 RandV2Range(V2 min, V2 max)
+{
+    V2 temp;
+    temp.x = RandIntRange(min.x,max.x);
+    temp.y = RandIntRange(min.y,max.y);
+    return temp;
+}

@@ -1,5 +1,6 @@
 #include "World.hpp"
 #include <iostream>
+#include "macros.hpp"
 
 World::World(V2 newSize) : size(newSize)
 {
@@ -57,6 +58,7 @@ char World::GetAtLoc(V2 loc)
 
 void World::Spawn(Entity* e)
 {
+    Inhabit(e);
     Replace(e->GetPosition(), e->GetModel());
 }
 
@@ -71,4 +73,30 @@ Entity *World::FindByLoc(V2 loc)
             return Inhabitants[i];
     }
     return nullptr;
+}
+
+Entity *World::GetInhabitants(unsigned index)
+{
+    return Inhabitants[index];
+}
+
+unsigned World::GetPopCap()
+{
+    return Inhabitants.top;
+}
+
+void World::StateCheck()
+{
+    for (int i = 0; i < Inhabitants.top; i++)
+    {
+        Inhabitants[i]->StateUpdate();
+    }
+}
+
+void World::UpdateAll()
+{
+    for (int i = 0; i < Inhabitants.top; i++)
+    {
+        UpdateLocation(Inhabitants[i]);
+    }
 }

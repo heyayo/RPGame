@@ -22,7 +22,17 @@ void Ranged::Attack(V2 spot)
 
     V2 temp = spot - pos;
     if (temp.Length() > range)
+    {
+        print("Out of Range")
         return;
+    }
 
+    if (weapon != nullptr)
+    {
+        target->Damage(damage + weapon->GetDamage());
+        print("Damaged " << target->GetModel() << " By " << damage + weapon->GetDamage())
+        return;
+    }
     target->Damage(damage);
+    print("Damaged " << target->GetModel() << " By " << damage)
 }

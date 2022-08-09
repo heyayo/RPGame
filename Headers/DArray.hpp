@@ -13,6 +13,9 @@ struct DArray
 
     void PushBack(T data);
     void Cut(int newSize);
+    void Nullify(unsigned);
+    void Delete(unsigned);
+    int GetTopIndex();
     T ReturnLast();
     T ReturnFirst();
 

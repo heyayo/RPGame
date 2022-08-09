@@ -20,12 +20,16 @@ public:
 
     void Inhabit(Entity*);
     void UpdateLocation(Entity*);
+    void UpdateAll();
     void Spawn(Entity*);
 
     V2 GetSize();
     char** GetContents();
+    Entity* GetInhabitants(unsigned);
+    unsigned GetPopCap();
 
     Entity* FindByLoc(V2);
+    void StateCheck();
 };
 
 #endif

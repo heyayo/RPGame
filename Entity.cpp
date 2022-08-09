@@ -1,11 +1,15 @@
 #include "Entity.hpp"
+#include "macros.hpp"
 
 Entity::Entity()
 {
     pos = V2(0,0);
     oldPos = V2(0,0);
 }
-Entity::~Entity() {}
+Entity::~Entity()
+{
+    print("DEATH OF A DREAM")
+}
 
 V2 Entity::GetPosition()
 {
@@ -46,4 +50,9 @@ int Entity::GetHealth()
 int Entity::GetDamage()
 {
     return damage;
+}
+
+Entity::EntityType Entity::GetType()
+{
+    return type;
 }

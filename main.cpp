@@ -4,11 +4,15 @@
 #include "Game.hpp"
 #include "macros.hpp"
 #include "Math.hpp"
+#include "Goblin.hpp"
 
 int main()
 {
     World* currentWorld = new World(V2(10,10));
-    Entity* playerChar = nullptr;
+    Player* playerChar = nullptr;
+    Enemy* enemy1 = new Goblin(currentWorld);
+    Enemy* enemy2 = new Goblin(currentWorld);
+    Enemy* enemy3 = new Goblin(currentWorld);
     InitRandom(1);
 
     // Ask Which Class Section
@@ -30,13 +34,21 @@ int main()
         }
     }
     currentWorld->Spawn(playerChar);
+    currentWorld->Spawn(enemy1);
+    currentWorld->Spawn(enemy2);
+    currentWorld->Spawn(enemy3);
+    enemy1->SetTarget(playerChar);
+    enemy2->SetTarget(playerChar);
+    enemy3->SetTarget(playerChar);
     LoadPtr(currentWorld,playerChar);
 
-    print(playerChar->GetRange())
     bool Running = true;
     while (Running)
     {
+        print("ROUND")
+        currentWorld->UpdateAll();
         Draw(currentWorld);
+        PrintStats();
         char queryResult;
         print("Enter a Move")
         print("m to move | a to attack")
@@ -53,7 +65,8 @@ int main()
                 print("INVALID OPTION")
         }
 
-        currentWorld->UpdateLocation(playerChar);
+        TickNPC();
+        currentWorld->StateCheck();
     }
 
     delete currentWorld;
