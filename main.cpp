@@ -8,74 +8,52 @@
 int main()
 {
     World* currentWorld = new World(V2(10,10));
-    Entity* playerChar;
+    Entity* playerChar = nullptr;
     InitRandom(1);
 
     // Ask Which Class Section
+    while (playerChar == nullptr)
     {
-        char result = ' ';
-        bool good;
-        do
+        char result;
+        switch (result)
         {
-            good = false;
-            switch (result)
-            {
-                case 'r':
-                    playerChar = new Ranged(currentWorld);
-                    break;
-                case 'm':
-                    playerChar = new Melee(currentWorld);
-                    break;
-                default:
-                    print("Pick a Class")
-                    query(result)
-                    good = true;
-                    break;
-            }
-        } while (good);
-        currentWorld->Spawn(playerChar);
+            case 'r':
+                playerChar = new Ranged(currentWorld);
+                break;
+            case 'm':
+                playerChar = new Melee(currentWorld);
+                break;
+            default:
+                print("Pick a Class")
+                print("r For Ranged | m For Melee")
+                query(result)
+        }
     }
+    currentWorld->Spawn(playerChar);
+    LoadPtr(currentWorld,playerChar);
 
     print(playerChar->GetRange())
     bool Running = true;
     while (Running)
     {
+        Draw(currentWorld);
         char queryResult;
-        print("Enter a move")
+        print("Enter a Move")
         print("m to move | a to attack")
         query(queryResult)
-
-        Turn Info;
         switch (queryResult)
         {
             case 'm':
-                mesPack[0] = "Move on X by?";
-                mesPack[1] = "Move on Y by?";
-                Info.SetMessage(mesPack, 0);
-                Info.SetIterations(2);
-                Info.SetType(Move);
-                print("INFO SET")
-                Query(Info);
+                Parse(playerChar, MoveStage());
                 break;
             case 'a':
-                mesPack[0] = "Attacking with Range of " + playerChar->GetRange();
-                mesPack[1] = "Attack on X by?";
-                mesPack[2] = "Attack on Y by?";
-                Info.SetMessage(mesPack, 0);
-                Info.SetIterations(2);
-                Info.SetMessageCount(0);
-                Info.SetType(Attack);
-                Query(Info);
+                Parse(playerChar, AttackStage());
                 break;
             default:
-                break;
+                print("INVALID OPTION")
         }
-        print("ATTEMPTING PARSE")
-        Parse(Info, playerChar);
-        print("PARSED")
-        print("DRAWING")
-        Draw(currentWorld);
-        print("DRAWN")
+
+        currentWorld->UpdateLocation(playerChar);
     }
 
     delete currentWorld;

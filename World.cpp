@@ -38,7 +38,11 @@ void World::UpdateLocation(Entity* e)
 
     Replace(loc, eModel);
     if (eAtOldLoc == eModel)
+    {
+        if (loc == oldLoc)
+            return;
         Replace(oldLoc, ' ');
+    }
 }
 
 void World::Replace(V2 loc, char r)

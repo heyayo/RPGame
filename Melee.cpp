@@ -1,7 +1,14 @@
 #include "Melee.hpp"
 #include "macros.hpp"
+#include "Math.hpp"
 
-Melee::Melee(World* live) : Player(live) { model = 'M'; }
+Melee::Melee(World* live) : Player(live)
+{
+    model = 'M';
+    range = 1;
+    health = RandIntRange(120,150);
+    damage = RandIntRange(25,40);
+}
 Melee::~Melee() {}
 
 void Melee::Attack(V2 spot)

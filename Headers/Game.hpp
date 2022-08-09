@@ -2,10 +2,12 @@
 #define RPGAME_GAME_HPP
 
 #include "World.hpp"
-#include "Turn.hpp"
+#include "Package.hpp"
 
 void Draw(World*);
-void Parse(Turn, Entity*);
-void Query(Turn&);
+void Parse(Entity*, Package);
+void LoadPtr(World*, Entity*);
+Package MoveStage();
+Package AttackStage();
 
 #endif

@@ -1,6 +1,10 @@
 #include "Entity.hpp"
 
-Entity::Entity() {}
+Entity::Entity()
+{
+    pos = V2(0,0);
+    oldPos = V2(0,0);
+}
 Entity::~Entity() {}
 
 V2 Entity::GetPosition()

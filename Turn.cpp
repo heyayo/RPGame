@@ -7,7 +7,7 @@ Turn::Turn()
     messageCount = 0;
 }
 
-Turn::~Turn() { delete packages;}
+Turn::~Turn() { delete packages; delete messages; }
 
 int Turn::GetIterations()
 {
@@ -32,7 +32,8 @@ void Turn::Pack()
 void Turn::Reset(std::string* mesgPack, int iter)
 {
     ClearPackages();
-    SetMessage(mesgPack, 0);
+    delete mesgPack;
+    mesgPack = nullptr;
     SetIterations(iter);
 }
 
@@ -81,5 +82,5 @@ void Turn::SetMessageCount(int count)
 
 void Turn::SetMessage(std::string message, unsigned int index)
 {
-    packages[index] = message;
+    messages[index] = message;
 }

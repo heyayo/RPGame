@@ -2,55 +2,99 @@
 #include "macros.hpp"
 #include <iostream>
 
+World* currentWorld;
+Entity* player;
+
 void Draw(World* w)
 {
     V2 size = w->GetSize();
     char** world = w->GetContents();
     for (int i = 0; i < size.y; i++)
+        std::cout << ' ' << i;
+    std::cout << std::endl;
+    for (int i = 0; i < size.y; i++)
     {
+        std::cout << i;
         for (int j = 0; j < size.x; j++)
         {
-            std::cout << world[i][j];
+            std::cout << world[i][j] << ' ';
         }
         std::cout << std::endl;
     }
 }
 
-void Parse(Turn result, Entity* curTurn)
+void Parse(Entity* actor, Package box)
 {
-    if (!result.IsPacked())
-        return;
-    int* packages = result.GetPackages();
-    switch (result.GetType())
+    V2 boxpack = box.GetPackage();
+    switch (box.GetType())
     {
         case Move:
-            curTurn->Move(V2(packages[1],packages[0]));
+        {
+            actor->Move(boxpack);
             break;
+        }
         case Attack:
-            curTurn->Attack(V2(packages[1],packages[0]));
-            break;
-        case Inventory:
+            actor->Attack(boxpack);
             break;
     }
 }
 
-void Query(Turn &result)
+Package MoveStage()
 {
-    print("QUERYING")
-    int* packs = result.GetPackages();
-    std::string* list = result.GetMessages();
-    for (int i = 0; i < result.GetIterations() + result.GetMessageCount(); i++)
+    Package boxPack(Move);
+    V2 temp = V2(0,0);
+    for (int i = 5; i > 0; i--)
     {
-        if (i < result.GetMessageCount())
+        print("WASD To Move | Invalid Means Skip")
+        print("You have " << i << " Turns Left")
+        char ui;
+        query(ui);
+        switch (ui)
         {
-            print(list[i])
+            case 'w':
+                temp.y += 1;
+                break;
+            case 's':
+                temp.y -= 1;
+                break;
+            case 'a':
+                temp.x -= 1;
+                break;
+            case 'd':
+                temp.x += 1;
+                break;
+            default:
+                print("Skipping")
+                break;
         }
-        else
-        {
-            print(list[i])
-            query(packs[i])
-        }
+        print("MOVING BY")
+        print('[' << temp.x << ',' << temp.y << ']')
     }
-    result.Pack();
-    print("QUERIED")
+    boxPack.LoadPackage(temp);
+    return boxPack;
+}
+
+Package AttackStage()
+{
+    Package boxPack(Attack);
+    V2 temp;
+    V2 worldSize = currentWorld->GetSize();
+    while (true)
+    {
+        print("Enter X Coordinate of Target")
+        query(temp.x)
+        print("Enter Y Coordinate of Target")
+        query(temp.y)
+        if (temp.x < 0 || temp.y < 0 || temp.x > worldSize.x || temp.y > worldSize.y)
+            continue;
+        break;
+    }
+    boxPack.LoadPackage(temp);
+    return boxPack;
+}
+
+void LoadPtr(World* w, Entity* e)
+{
+    currentWorld = w;
+    player = e;
 }

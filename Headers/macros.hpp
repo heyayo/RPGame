@@ -4,5 +4,6 @@
 
 #define print(x) std::cout << x << std::endl;
 #define query(x) std::cin >> x;
+#define CLEAR system("cls");
 
 #endif

@@ -3,13 +3,6 @@
 
 #include <string>
 
-enum TurnType
-{
-    Move,
-    Attack,
-    Inventory
-};
-
 class Turn
 {
     std::string* messages;
