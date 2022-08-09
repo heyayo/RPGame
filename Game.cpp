@@ -86,7 +86,10 @@ Package AttackStage()
         print("Enter Y Coordinate of Target")
         query(temp.y)
         if (temp.x < 0 || temp.y < 0 || temp.x > worldSize.x || temp.y > worldSize.y)
+        {
+            print("Out Of Bounds Target")
             continue;
+        }
         break;
     }
     boxPack.LoadPackage(temp);
