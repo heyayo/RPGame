@@ -3,9 +3,10 @@
 #include <iostream>
 #include <string>
 
+// Save World Pointer for function use
 World* currentWorld;
-Character* player;
 
+// Draw World
 void Draw(World* w)
 {
     V2 size = w->GetSize();
@@ -25,6 +26,7 @@ void Draw(World* w)
     std::cout << 'Y' << std::endl;
 }
 
+// Do what the user wanted on the character
 void Parse(Character* actor, Package box)
 {
     V2 boxpack = box.GetPackage();
@@ -41,6 +43,7 @@ void Parse(Character* actor, Package box)
     }
 }
 
+// Ask user in move turn
 Package MoveStage()
 {
     Package boxPack(Move);
@@ -76,6 +79,7 @@ Package MoveStage()
     return boxPack;
 }
 
+// Ask user in attack turn
 Package AttackStage()
 {
     Package boxPack(Attack);
@@ -98,12 +102,13 @@ Package AttackStage()
     return boxPack;
 }
 
-void LoadPtr(World* w, Character* e)
+// Load World Pointer for Function Use
+void LoadPtr(World* w)
 {
     currentWorld = w;
-    player = e;
 }
 
+// Print Stats about Inhabitants
 void PrintStats()
 {
     for (int i = 0; i < currentWorld->GetPopCap(); i++)
@@ -117,7 +122,7 @@ void PrintStats()
         modelChar = temp->GetModel();
         V2 pos = temp->GetPosition();
         std::string wepStat = "";
-        if (temp->GetType() == Entity::Friendly)
+        if (temp->GetType() == Entity::EntityType::Friendly)
         {
             Player* pTemp = static_cast<Player*>(temp);
             if (pTemp->GetWeapon() != nullptr)
@@ -133,6 +138,7 @@ void PrintStats()
     }
 }
 
+// Run all Goblin AI
 void TickNPC()
 {
     for (int i = 0; i < currentWorld->GetPopCap(); i++)
@@ -140,7 +146,7 @@ void TickNPC()
         Entity* temp = currentWorld->GetInhabitants(i);
         if (temp == nullptr)
             continue;
-        if (temp->GetType() == Entity::Hostile)
+        if (temp->GetType() == Entity::EntityType::Hostile)
         {
             static_cast<Goblin*>(temp)->DoTurn();
         }

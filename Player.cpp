@@ -5,7 +5,7 @@
 Player::Player(World* live) : liveIn(live)
 {
     model = 'T';
-    type = Friendly;
+    type = EntityType::Friendly;
     weapon = nullptr;
 }
 Player::~Player()
@@ -31,15 +31,15 @@ void Player::Move(V2 deltaPos)
     {
         switch (temp->GetType())
         {
-            case Hostile:
+            case EntityType::Hostile:
                 print("COLLIDED WITH OBJECT " << temp->GetModel())
                 return;
-            case Weapons:
+            case EntityType::Weapons:
                 weapon = static_cast<Weapon*>(temp)->UseObject();
                 break;
-            case Consumable:
+            case EntityType::Consumable:
                 health += static_cast<Object*>(temp)->GetHealth();
-                liveIn->Dehabit(static_cast<Object*>(temp)->UseObject());
+                liveIn->Kill(static_cast<Object*>(temp)->UseObject());
                 break;
         }
     }

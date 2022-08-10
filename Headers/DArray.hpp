@@ -1,6 +1,15 @@
 #ifndef DARRAY_H
 #define DARRAY_H
 
+/*
+ * Mom, Can we have std::vector at home?
+ * Mom: We have std::vector at home
+ *
+ * std::vector at home
+ *
+ * extra code is for own library collection
+ */
+
 template<typename T, int size = 1>
 struct DArray
 {

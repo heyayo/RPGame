@@ -10,61 +10,65 @@
 
 int main()
 {
-    World* currentWorld = new World(V2(10,10));
-    Player* playerChar = nullptr;
-    Enemy* enemy1 = new Goblin(currentWorld);
-    Enemy* enemy2 = new Goblin(currentWorld);
-    Enemy* enemy3 = new Goblin(currentWorld);
-    Object* wep = new Weapon(10, currentWorld);
-    HealthGlobe* health1 = new HealthGlobe(20, currentWorld);
-    HealthGlobe* health2 = new HealthGlobe(20, currentWorld);
-    health1->SetPosition(V2(1,1));
-    health2->SetPosition(V2(9,9));
-    wep->SetPosition(V2(2,2));
-    InitRandom(1);
+    // Initialize Randomizer
+    InitRandom(time(NULL));
+    // Create Game Variables Part One
+    World* currentWorld = new World(V2(10,10)); // Game World
+    Player* playerChar = nullptr; // Empty Player Placeholder
 
     // Ask Which Class Section
-    while (playerChar == nullptr)
     {
-        char result;
-        switch (result)
+        char result = ' ';
+        while (playerChar == nullptr)
         {
-            case 'r':
-                playerChar = new Ranged(currentWorld);
-                break;
-            case 'm':
-                playerChar = new Melee(currentWorld);
-                break;
-            default:
-                print("Pick a Class")
-                print("r For Ranged | m For Melee")
-                query(result)
+            switch (result)
+            {
+                case 'r':
+                    playerChar = new Ranged(currentWorld);
+                    break;
+                case 'm':
+                    playerChar = new Melee(currentWorld);
+                    break;
+                default:
+                    print("Pick a Class")
+                    print("r For Ranged | m For Melee")
+                    query(result)
+            }
         }
     }
     currentWorld->Spawn(playerChar);
+    Enemy* enemy1 = new Goblin(currentWorld); // First Enemy
     currentWorld->Spawn(enemy1);
+    Enemy* enemy2 = new Goblin(currentWorld); // Second Enemy
     currentWorld->Spawn(enemy2);
+    Enemy* enemy3 = new Goblin(currentWorld); // Third Enemy
     currentWorld->Spawn(enemy3);
+    Object* wep = new Weapon(10, currentWorld); // One Weapon
     currentWorld->Spawn(wep);
+    HealthGlobe* health1 = new HealthGlobe(20, currentWorld); // First Health Globe
     currentWorld->Spawn(health1);
+    HealthGlobe* health2 = new HealthGlobe(20, currentWorld); // Second Health Globe
     currentWorld->Spawn(health2);
     enemy1->SetTarget(playerChar);
     enemy2->SetTarget(playerChar);
     enemy3->SetTarget(playerChar);
-    LoadPtr(currentWorld,playerChar);
 
+    LoadPtr(currentWorld); // Save World Pointer to Game Functions
     while (true)
     {
-        if (!currentWorld->ECCHeck() || !currentWorld->GetPlayerVitals())
-            break;
-        Draw(currentWorld);
-        PrintStats();
+        system("CLS"); // Clear Screen
+        if (!currentWorld->ECCheck() || !currentWorld->GetPlayerVitals())
+            break; // Check Game Status
+        Draw(currentWorld); // Print World
+        PrintStats(); // Print Statistics
+        // Query Player on Move
         char queryResult;
         print("Enter a Move")
         print("m to move | a to attack")
         query(queryResult)
         switch (queryResult)
         {
+            // Parse Player Move
             case 'm':
                 Parse(playerChar, MoveStage());
                 break;
@@ -75,15 +79,38 @@ int main()
                 print("INVALID OPTION")
         }
 
+        // Check if any entity died
         currentWorld->StateCheck();
+        // Tick Goblin AI
         TickNPC();
+        // Update All Entity Positions
         currentWorld->UpdateAll();
     }
 
-    if (!currentWorld->ECCHeck())
+    // Determine who Won and cleanup
+    if (!currentWorld->ECCheck())
+    {
         print("You Win")
+        delete playerChar;
+    }
     if (!currentWorld->GetPlayerVitals())
-        print("You Died")
+    {
+        print("You Died");
+        for (int i = 0; i < currentWorld->GetPopCap(); i++)
+        {
+            // Delete remaining Goblins
+            Entity* temp = currentWorld->GetInhabitants(i);
+            if (temp == nullptr)
+                continue;
+            if (temp->GetType() == Entity::EntityType::Hostile)
+            {
+                currentWorld->Kill(temp);
+            }
+        }
+    }
+    //delete world
     delete currentWorld;
-    delete playerChar;
+    //delete weapon
+    delete wep;
+    system("pause");
 }

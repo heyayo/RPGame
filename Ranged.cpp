@@ -1,16 +1,18 @@
 #include "Ranged.hpp"
 #include "macros.hpp"
 #include "Math.hpp"
+#include "Config.hpp"
 
 Ranged::Ranged(World * live) : Player(live)
 {
-    model = 'R';
-    range = 5;
-    health = RandIntRange(1,5);
-    damage = RandIntRange(15,20);
+    model = RangedModel;
+    range = RangedRange;
+    health = RandIntRange(RangedHPMin,RangedHPMax);
+    damage = RandIntRange(RangedDMGMin,RangedDMGMax);
 }
 Ranged::~Ranged() {}
 
+// Attack Function checking for Range
 void Ranged::Attack(V2 spot)
 {
     Entity* target = liveIn->FindByLoc(spot);

@@ -28,7 +28,7 @@ World::~World()
 
 void World::Inhabit(Entity* e)
 {
-    if (e->GetType() == Entity::Hostile)
+    if (e->GetType() == Entity::EntityType::Hostile)
         EnemyCount++;
     Inhabitants.PushBack(e);
     UpdateLocation(e);
@@ -100,7 +100,7 @@ void World::StateCheck()
         if (Inhabitants[i]->GetHealth() <= 0)
         {
             Entity* temp = Inhabitants[i];
-            if (temp->GetType() == Entity::Friendly)
+            if (temp->GetType() == Entity::EntityType::Friendly)
                 PlayerAlive = false;
             Replace(temp->GetPosition(),' ');
             print(temp->GetModel() << " Died At Position " << temp->GetPosition().x <<','<<temp->GetPosition().y)
@@ -128,6 +128,16 @@ void World::Dehabit(Entity * e)
     Entity* temp = Inhabitants[index];
     Replace(temp->GetPosition(), ' ');
     Inhabitants.Nullify(index);
+}
+
+void World::Kill(Entity* e)
+{
+    unsigned index = FindByPointer(e);
+    if (index == -1)
+        return;
+    Entity* temp = Inhabitants[index];
+    Replace(temp->GetPosition(), ' ');
+    Inhabitants.Nullify(index);
     delete temp;
 }
 
@@ -148,7 +158,7 @@ void World::TickEnemyCount(int delta)
     EnemyCount += delta;
 }
 
-bool World::ECCHeck()
+bool World::ECCheck()
 {
     return (EnemyCount>0);
 }

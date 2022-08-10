@@ -7,7 +7,7 @@ class Entity
 {
     V2 oldPos;
 public:
-    enum EntityType
+    enum class EntityType
     {
         Friendly,
         Hostile,

@@ -22,6 +22,7 @@ public:
 
     void Inhabit(Entity*);
     void Dehabit(Entity*);
+    void Kill(Entity*);
     void UpdateLocation(Entity*);
     void UpdateAll();
     void Spawn(Entity*);
@@ -36,7 +37,7 @@ public:
     Entity* FindByLoc(V2);
     unsigned FindByPointer(Entity*);
 
-    bool ECCHeck();
+    bool ECCheck();
     bool GetPlayerVitals();
 };
 
