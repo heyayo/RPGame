@@ -1,19 +1,20 @@
 #include "Goblin.hpp"
 #include "Math.hpp"
-#include "macros.hpp"
+#include "Config.hpp"
 
 Goblin::Goblin(V2 newPos, World* w) : Enemy(newPos, w)
 {
-    model = 'G';
-    health = RandIntRange(10,20);
-    damage = RandIntRange(5,10);
-    range = 1;
+    model = GoblinModel;
+    range = GoblinRange;
+    health = RandIntRange(GoblinHPMin,GoblinHPMax);
+    damage = RandIntRange(GoblinDMGMin,GoblinDMGMax);
 }
 
+// Goblin "AI"
 void Goblin::DoTurn()
 {
     V2 dist = target->GetPosition() - pos;
-    if (dist.Length() > 1)
+    if (dist.Length() > range)
     {
         int deltaX, deltaY;
         if (dist.x < 0)
@@ -45,8 +46,8 @@ Goblin::Goblin(World* w) : Enemy(w)
             break;
         }
     }
-    model = 'G';
-    health = RandIntRange(10,20);
-    damage = RandIntRange(5,10);
-    range = 1;
+    model = GoblinModel;
+    range = GoblinRange;
+    health = RandIntRange(GoblinHPMin,GoblinHPMax);
+    damage = RandIntRange(GoblinDMGMin,GoblinDMGMax);
 }

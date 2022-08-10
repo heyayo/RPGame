@@ -158,7 +158,7 @@ void World::TickEnemyCount(int delta)
     EnemyCount += delta;
 }
 
-bool World::ECCHeck()
+bool World::ECCheck()
 {
     return (EnemyCount>0);
 }

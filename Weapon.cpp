@@ -7,6 +7,7 @@ Weapon::Weapon(int dmg, World* w) : Object(w)
     model = 'W';
 }
 
+// Equip Object While Removing from World
 Object *Weapon::UseObject()
 {
     liveIn->Dehabit(this);

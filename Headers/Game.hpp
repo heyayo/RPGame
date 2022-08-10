@@ -9,7 +9,7 @@
 void Draw(World*);
 void PrintStats();
 void Parse(Character*, Package);
-void LoadPtr(World*, Character*);
+void LoadPtr(World*);
 void TickNPC();
 Package MoveStage();
 Package AttackStage();

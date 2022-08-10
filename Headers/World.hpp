@@ -37,7 +37,7 @@ public:
     Entity* FindByLoc(V2);
     unsigned FindByPointer(Entity*);
 
-    bool ECCHeck();
+    bool ECCheck();
     bool GetPlayerVitals();
 };
 
