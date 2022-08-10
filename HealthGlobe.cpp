@@ -2,7 +2,7 @@
 
 HealthGlobe::HealthGlobe(int hp, World* w) : Object(w)
 {
-    type = Consumable;
+    type = EntityType::Consumable;
     health = hp;
     model = 'H';
 }

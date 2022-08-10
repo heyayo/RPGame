@@ -2,7 +2,7 @@
 
 Weapon::Weapon(int dmg, World* w) : Object(w)
 {
-    type = Weapons;
+    type = EntityType::Weapons;
     damage = dmg;
     model = 'W';
 }

@@ -24,21 +24,23 @@ int main()
     InitRandom(1);
 
     // Ask Which Class Section
-    while (playerChar == nullptr)
     {
-        char result;
-        switch (result)
+        char result = ' ';
+        while (playerChar == nullptr)
         {
-            case 'r':
-                playerChar = new Ranged(currentWorld);
-                break;
-            case 'm':
-                playerChar = new Melee(currentWorld);
-                break;
-            default:
-                print("Pick a Class")
-                print("r For Ranged | m For Melee")
-                query(result)
+            switch (result)
+            {
+                case 'r':
+                    playerChar = new Ranged(currentWorld);
+                    break;
+                case 'm':
+                    playerChar = new Melee(currentWorld);
+                    break;
+                default:
+                    print("Pick a Class")
+                    print("r For Ranged | m For Melee")
+                    query(result)
+            }
         }
     }
     currentWorld->Spawn(playerChar);
@@ -55,6 +57,7 @@ int main()
 
     while (true)
     {
+        system("CLS");
         if (!currentWorld->ECCHeck() || !currentWorld->GetPlayerVitals())
             break;
         Draw(currentWorld);
@@ -81,9 +84,25 @@ int main()
     }
 
     if (!currentWorld->ECCHeck())
-        print("You Win")
+    {
+        print("You Win");
+        delete playerChar;
+    }
     if (!currentWorld->GetPlayerVitals())
-        print("You Died")
+    {
+        print("You Died");
+        for (int i = 0; i < currentWorld->GetPopCap(); i++)
+        {
+            Entity* temp = currentWorld->GetInhabitants(i);
+            if (temp == nullptr)
+                continue;
+            if (temp->GetType() == Entity::EntityType::Hostile)
+            {
+                currentWorld->Kill(temp);
+            }
+        }
+    }
     delete currentWorld;
-    delete playerChar;
+    delete wep;
+    system("pause");
 }

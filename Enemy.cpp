@@ -3,7 +3,7 @@
 Enemy::Enemy(V2 newPos, World* w) : liveIn(w)
 {
     SetPosition(newPos);
-    type = Hostile;
+    type = EntityType::Hostile;
 }
 
 void Enemy::SetTarget(Entity * tart)
@@ -21,7 +21,7 @@ void Enemy::Move(V2 deltaPos)
 
 Enemy::Enemy(World * w) : liveIn(w)
 {
-    type = Hostile;
+    type = EntityType::Hostile;
 }
 
 void Enemy::Attack(V2)

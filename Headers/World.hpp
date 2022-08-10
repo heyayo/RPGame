@@ -22,6 +22,7 @@ public:
 
     void Inhabit(Entity*);
     void Dehabit(Entity*);
+    void Kill(Entity*);
     void UpdateLocation(Entity*);
     void UpdateAll();
     void Spawn(Entity*);

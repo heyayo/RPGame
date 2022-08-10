@@ -117,7 +117,7 @@ void PrintStats()
         modelChar = temp->GetModel();
         V2 pos = temp->GetPosition();
         std::string wepStat = "";
-        if (temp->GetType() == Entity::Friendly)
+        if (temp->GetType() == Entity::EntityType::Friendly)
         {
             Player* pTemp = static_cast<Player*>(temp);
             if (pTemp->GetWeapon() != nullptr)
@@ -140,7 +140,7 @@ void TickNPC()
         Entity* temp = currentWorld->GetInhabitants(i);
         if (temp == nullptr)
             continue;
-        if (temp->GetType() == Entity::Hostile)
+        if (temp->GetType() == Entity::EntityType::Hostile)
         {
             static_cast<Goblin*>(temp)->DoTurn();
         }
