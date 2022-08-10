@@ -8,8 +8,8 @@
 
 void Draw(World*);
 void PrintStats();
-void Parse(Entity*, Package);
-void LoadPtr(World*, Entity*);
+void Parse(Character*, Package);
+void LoadPtr(World*, Character*);
 void TickNPC();
 Package MoveStage();
 Package AttackStage();

@@ -2,12 +2,16 @@
 #define RPGAME_OBJECTS_HPP
 
 #include "Entity.hpp"
+#include "World.hpp"
 
 class Object : public Entity
 {
+protected:
+    World* liveIn;
 public:
-
-    Object* UseObject();
+    Object(World*);
+    void SetPosition(V2);
+    virtual Object* UseObject();
 };
 
 

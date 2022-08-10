@@ -88,3 +88,9 @@ void DArray<T, size>::Delete(unsigned index)
 {
     delete dar[index];
 }
+
+template<typename T, int size>
+T DArray<T, size>::GetAtIndex(unsigned index)
+{
+    return dar[index];
+}

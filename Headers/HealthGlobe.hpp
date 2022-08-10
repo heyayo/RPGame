@@ -6,7 +6,7 @@
 class HealthGlobe : public Object
 {
 public:
-    HealthGlobe(int hp);
+    HealthGlobe(int hp, World*);
 };
 
 

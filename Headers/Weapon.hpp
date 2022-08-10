@@ -6,7 +6,9 @@
 class Weapon : public Object
 {
 public:
-    Weapon(int);
+    Weapon(int, World*);
+
+    Object* UseObject();
 };
 
 

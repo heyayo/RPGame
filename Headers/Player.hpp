@@ -2,8 +2,9 @@
 #define RPGAME_PLAYER_HPP
 #include "World.hpp"
 #include "Objects.hpp"
+#include "Character.hpp"
 
-class Player : public Entity
+class Player : public Character
 {
 protected:
     World *liveIn;
@@ -15,7 +16,6 @@ public:
 
     virtual void Move(V2);
     Object* GetWeapon();
-    void StateUpdate();
 };
 
 #endif

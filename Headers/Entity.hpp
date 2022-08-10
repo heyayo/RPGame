@@ -24,11 +24,13 @@ protected:
 
     V2 pos;
 
+    void SetOldPosition(V2);
+
 public:
     Entity();
     virtual ~Entity();
 
-    void SetPosition(V2);
+    virtual void SetPosition(V2);
 
     V2 GetPosition();
     V2 GetOldPosition();
@@ -39,9 +41,6 @@ public:
     EntityType GetType();
 
     void Damage(int);
-    virtual void Move(V2) = 0;
-    virtual void Attack(V2) = 0;
-    virtual void StateUpdate() = 0;
 };
 
 

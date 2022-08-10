@@ -29,8 +29,7 @@ void Enemy::Attack(V2)
     target->Damage(damage);
 }
 
-void Enemy::StateUpdate()
+Enemy::~Enemy()
 {
-    if (health <= 0)
-        delete this;
+    liveIn->TickEnemyCount(-1);
 }

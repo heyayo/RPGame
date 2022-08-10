@@ -1,6 +1,6 @@
 #include "Player.hpp"
 #include "macros.hpp"
-#include "Objects.hpp"
+#include "Weapon.hpp"
 
 Player::Player(World* live) : liveIn(live)
 {
@@ -8,7 +8,10 @@ Player::Player(World* live) : liveIn(live)
     type = Friendly;
     weapon = nullptr;
 }
-Player::~Player() {}
+Player::~Player()
+{
+
+}
 
 void Player::Move(V2 deltaPos)
 {
@@ -32,10 +35,12 @@ void Player::Move(V2 deltaPos)
                 print("COLLIDED WITH OBJECT " << temp->GetModel())
                 return;
             case Weapons:
-                weapon = static_cast<Object*>(temp)->UseObject();
+                weapon = static_cast<Weapon*>(temp)->UseObject();
+                break;
             case Consumable:
                 health += static_cast<Object*>(temp)->GetHealth();
-                delete temp;
+                liveIn->Dehabit(static_cast<Object*>(temp)->UseObject());
+                break;
         }
     }
     SetPosition(pos + deltaPos);
@@ -44,10 +49,4 @@ void Player::Move(V2 deltaPos)
 Object *Player::GetWeapon()
 {
     return weapon;
-}
-
-void Player::StateUpdate()
-{
-    if (health <= 0)
-        delete this;
 }

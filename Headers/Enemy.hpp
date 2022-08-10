@@ -1,10 +1,10 @@
 #ifndef RPGAME_ENEMY_HPP
 #define RPGAME_ENEMY_HPP
 
-#include "Entity.hpp"
+#include "Character.hpp"
 #include "World.hpp"
 
-class Enemy : public Entity
+class Enemy : public Character
 {
 protected:
     World* liveIn;
@@ -12,11 +12,11 @@ protected:
 public:
     Enemy(V2, World*);
     Enemy(World*);
+    ~Enemy();
 
     void SetTarget(Entity*);
     void Move(V2);
     void Attack(V2);
-    void StateUpdate();
     virtual void DoTurn() = 0;
 };
 

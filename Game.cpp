@@ -1,9 +1,10 @@
 #include "Game.hpp"
 #include "macros.hpp"
 #include <iostream>
+#include <string>
 
 World* currentWorld;
-Entity* player;
+Character* player;
 
 void Draw(World* w)
 {
@@ -11,7 +12,7 @@ void Draw(World* w)
     char** world = w->GetContents();
     for (int i = 0; i < size.y; i++)
         std::cout << ' ' << i;
-    std::cout << std::endl;
+    std::cout << " X" << std::endl;
     for (int i = 0; i < size.y; i++)
     {
         std::cout << i;
@@ -21,9 +22,10 @@ void Draw(World* w)
         }
         std::cout << std::endl;
     }
+    std::cout << 'Y' << std::endl;
 }
 
-void Parse(Entity* actor, Package box)
+void Parse(Character* actor, Package box)
 {
     V2 boxpack = box.GetPackage();
     switch (box.GetType())
@@ -96,7 +98,7 @@ Package AttackStage()
     return boxPack;
 }
 
-void LoadPtr(World* w, Entity* e)
+void LoadPtr(World* w, Character* e)
 {
     currentWorld = w;
     player = e;
@@ -108,25 +110,25 @@ void PrintStats()
     {
         Entity* temp = currentWorld->GetInhabitants(i);
         if (temp == nullptr)
-            return;
+            continue;
         int dmgnum, hpval;
         char modelChar;
         hpval = temp->GetHealth();
         modelChar = temp->GetModel();
         V2 pos = temp->GetPosition();
+        std::string wepStat = "";
         if (temp->GetType() == Entity::Friendly)
         {
             Player* pTemp = static_cast<Player*>(temp);
             if (pTemp->GetWeapon() != nullptr)
-                dmgnum = pTemp->GetWeapon()->GetDamage() + pTemp->GetDamage();
-            else
-                dmgnum = pTemp->GetDamage();
+                wepStat = "+" + std::to_string(pTemp->GetWeapon()->GetDamage());
+            dmgnum = pTemp->GetDamage();
         }
         else
             dmgnum = temp->GetDamage();
             print(modelChar << " | "
             << hpval << " HP | "
-            << dmgnum << " DMG | "
+            << dmgnum << wepStat << " DMG | "
             << '[' << pos.x << ',' << pos.y << ']')
     }
 }
@@ -136,6 +138,8 @@ void TickNPC()
     for (int i = 0; i < currentWorld->GetPopCap(); i++)
     {
         Entity* temp = currentWorld->GetInhabitants(i);
+        if (temp == nullptr)
+            continue;
         if (temp->GetType() == Entity::Hostile)
         {
             static_cast<Goblin*>(temp)->DoTurn();

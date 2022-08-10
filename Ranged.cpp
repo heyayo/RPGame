@@ -6,7 +6,7 @@ Ranged::Ranged(World * live) : Player(live)
 {
     model = 'R';
     range = 5;
-    health = RandIntRange(80,100);
+    health = RandIntRange(1,5);
     damage = RandIntRange(15,20);
 }
 Ranged::~Ranged() {}

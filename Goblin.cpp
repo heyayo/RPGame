@@ -29,7 +29,6 @@ void Goblin::DoTurn()
         deltaX,
         deltaY
         ));
-        print("MOVED" << deltaX << deltaY)
         return;
     }
     Attack(V2(0,0));
