@@ -1,7 +1,13 @@
 #include "Entity.hpp"
 
-Entity::Entity() {}
-Entity::~Entity() {}
+Entity::Entity()
+{
+    pos = V2(0,0);
+    oldPos = V2(0,0);
+}
+Entity::~Entity()
+{
+}
 
 V2 Entity::GetPosition()
 {
@@ -27,4 +33,29 @@ void Entity::SetPosition(V2 newPos)
 void Entity::Damage(int dmg)
 {
     health -= dmg;
+}
+
+int Entity::GetRange()
+{
+    return range;
+}
+
+int Entity::GetHealth()
+{
+    return health;
+}
+
+int Entity::GetDamage()
+{
+    return damage;
+}
+
+Entity::EntityType Entity::GetType()
+{
+    return type;
+}
+
+void Entity::SetOldPosition(V2 newOldPos)
+{
+    oldPos = newOldPos;
 }

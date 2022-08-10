@@ -2,17 +2,16 @@
 #define RPGAME_GAME_HPP
 
 #include "World.hpp"
-#include "Turn.hpp"
-
-#define print(x) std::cout << x << std::endl;
-#define query(x) std::cin >> x;
+#include "Package.hpp"
+#include "Player.hpp"
+#include "Goblin.hpp"
 
 void Draw(World*);
-
-template<typename T>
-void Parse(Turn<T>);
-
-template<typename T>
-void Query(Turn<T>&);
+void PrintStats();
+void Parse(Character*, Package);
+void LoadPtr(World*, Character*);
+void TickNPC();
+Package MoveStage();
+Package AttackStage();
 
 #endif

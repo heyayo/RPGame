@@ -2,46 +2,88 @@
 #include "Melee.hpp"
 #include "Ranged.hpp"
 #include "Game.hpp"
+#include "macros.hpp"
+#include "Math.hpp"
+#include "Goblin.hpp"
+#include "Weapon.hpp"
+#include "HealthGlobe.hpp"
 
 int main()
 {
     World* currentWorld = new World(V2(10,10));
-    Entity* playerChar;
+    Player* playerChar = nullptr;
+    Enemy* enemy1 = new Goblin(currentWorld);
+    Enemy* enemy2 = new Goblin(currentWorld);
+    Enemy* enemy3 = new Goblin(currentWorld);
+    Object* wep = new Weapon(10, currentWorld);
+    HealthGlobe* health1 = new HealthGlobe(20, currentWorld);
+    HealthGlobe* health2 = new HealthGlobe(20, currentWorld);
+    health1->SetPosition(V2(1,1));
+    health2->SetPosition(V2(9,9));
+    wep->SetPosition(V2(2,2));
+    InitRandom(1);
 
     // Ask Which Class Section
+    while (playerChar == nullptr)
     {
-        print("Pick a Class")
-        char result = ' ';
-        bool good;
-        do
+        char result;
+        switch (result)
         {
-            good = false;
-            switch (result)
-            {
-                case 'r':
-                    playerChar = new Ranged(currentWorld);
-                    break;
-                case 'm':
-                    playerChar = new Melee(currentWorld);
-                    break;
-                default:
-                    query(result)
-                    good = true;
-                    break;
-            }
-        } while (good);
+            case 'r':
+                playerChar = new Ranged(currentWorld);
+                break;
+            case 'm':
+                playerChar = new Melee(currentWorld);
+                break;
+            default:
+                print("Pick a Class")
+                print("r For Ranged | m For Melee")
+                query(result)
+        }
+    }
+    currentWorld->Spawn(playerChar);
+    currentWorld->Spawn(enemy1);
+    currentWorld->Spawn(enemy2);
+    currentWorld->Spawn(enemy3);
+    currentWorld->Spawn(wep);
+    currentWorld->Spawn(health1);
+    currentWorld->Spawn(health2);
+    enemy1->SetTarget(playerChar);
+    enemy2->SetTarget(playerChar);
+    enemy3->SetTarget(playerChar);
+    LoadPtr(currentWorld,playerChar);
+
+    while (true)
+    {
+        if (!currentWorld->ECCHeck() || !currentWorld->GetPlayerVitals())
+            break;
+        Draw(currentWorld);
+        PrintStats();
+        char queryResult;
+        print("Enter a Move")
+        print("m to move | a to attack")
+        query(queryResult)
+        switch (queryResult)
+        {
+            case 'm':
+                Parse(playerChar, MoveStage());
+                break;
+            case 'a':
+                Parse(playerChar, AttackStage());
+                break;
+            default:
+                print("INVALID OPTION")
+        }
+
+        currentWorld->StateCheck();
+        TickNPC();
+        currentWorld->UpdateAll();
     }
 
-    playerChar->SetPosition(V2(5,3));
-    currentWorld->Spawn(playerChar);
-
-    Draw(currentWorld);
-
-    playerChar->SetPosition(V2(2,1));
-    currentWorld->UpdateLocation(playerChar);
-
-    Draw(currentWorld);
-
+    if (!currentWorld->ECCHeck())
+        print("You Win")
+    if (!currentWorld->GetPlayerVitals())
+        print("You Died")
     delete currentWorld;
     delete playerChar;
 }

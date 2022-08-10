@@ -1,6 +1,8 @@
 #ifndef RPGAME_V2_HPP
 #define RPGAME_V2_HPP
 
+#include <iostream>
+
 class V2
 {
 public:
@@ -11,6 +13,10 @@ public:
     int Length();
 
     V2& operator+=(V2&);
+    V2& operator-=(V2&);
+    V2 operator-(V2&);
+    V2 operator+(V2&);
+    bool operator!=(V2&);
     bool operator==(V2&);
 };
 

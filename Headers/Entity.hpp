@@ -6,28 +6,40 @@
 class Entity
 {
     V2 oldPos;
-
+public:
+    enum EntityType
+    {
+        Friendly,
+        Hostile,
+        Weapons,
+        Consumable
+    };
 protected:
     int health;
     int damage;
     int range;
+    EntityType type;
 
     char model;
 
     V2 pos;
 
+    void SetOldPosition(V2);
+
 public:
     Entity();
-    ~Entity();
+    virtual ~Entity();
 
-    void SetPosition(V2);
+    virtual void SetPosition(V2);
 
     V2 GetPosition();
     V2 GetOldPosition();
     char GetModel();
+    int GetRange();
+    int GetHealth();
+    int GetDamage();
+    EntityType GetType();
 
-    virtual void Move(V2) = 0;
-    virtual void Attack(V2) = 0;
     void Damage(int);
 };
 

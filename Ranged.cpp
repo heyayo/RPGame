@@ -1,17 +1,38 @@
 #include "Ranged.hpp"
+#include "macros.hpp"
+#include "Math.hpp"
 
-Ranged::Ranged(World * live) : Player(live) { model = 'R'; }
+Ranged::Ranged(World * live) : Player(live)
+{
+    model = 'R';
+    range = 5;
+    health = RandIntRange(1,5);
+    damage = RandIntRange(15,20);
+}
 Ranged::~Ranged() {}
 
 void Ranged::Attack(V2 spot)
 {
-    if (spot.x < 0)
-        spot.x *= -1;
-    if (spot.y < 0)
-        spot.y *= -1;
-
-    if (spot.Length() > range)
-        return;
-
     Entity* target = liveIn->FindByLoc(spot);
+    if (target == nullptr)
+    {
+        print("No Target on Location")
+        return;
+    }
+
+    V2 temp = spot - pos;
+    if (temp.Length() > range)
+    {
+        print("Out of Range")
+        return;
+    }
+
+    if (weapon != nullptr)
+    {
+        target->Damage(damage + weapon->GetDamage());
+        print("Damaged " << target->GetModel() << " By " << damage + weapon->GetDamage())
+        return;
+    }
+    target->Damage(damage);
+    print("Damaged " << target->GetModel() << " By " << damage)
 }
